@@ -1,0 +1,95 @@
+/* Cascading Stylesheets */
+
+/*  In css legt ihr in (theoretisch) beliebiger Reihenfolge fest, wie die einzelnen Elemente eurer Seite dargestellt werden sollen. 
+    Vergleichbar mit Absatzformaten etc in Indesign. */
+/*  Ihr werdet zwar zu keiner Strukturierung gezwungen, aber es ist ratsam, den Code in irgendeiner Form zu ordnen, um einen Überblick zu behalten. */
+
+@import url("fonts.goo....");
+
+@font-face {
+    font-family: eigene;
+    font-weight: 400;
+    src: url("../fonts/fonts.otf");
+}
+
+
+/*  CSS ist unterteilt in Klassen, IDs, Elemente und Attribute und arbeitet mit den "Einstellungen" oder Properties */
+
+/*
+ *  Klassen
+ */
+/* Klassen werden verwendet, um die visuelle Darstellung von Elementen zu definieren. */
+
+.class {
+    opacity: inherit; /* Property */
+    font-family: eigene;
+}
+
+/*  In css gibt es verschiedene Methoden bestimmte Elemente anzusprechen, oder auszulassen
+    Hier aufgelistet sind die beiden gängigsten Selektoren. Es gibt noch viel mehr mit bestimmten auslassungen etc. Mehr dazu hier:
+    https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors */
+
+/*  Alle Elemente die sowohl die class "class" als auch "kombination" zugeordnet haben */
+.class.kombination { 
+    display: block;
+}
+/*  Alle Elemente mit der Klasse "combination" die sich innerhalb eines Elements mit der Klasse "class" befinden
+    Dieses Verhältnis bezeichnet man als Parent und Child */
+.class .kombination {
+    display: block;
+}
+
+/* 
+ * IDs
+ */
+/*  IDs werden verwendet, um Elemente zu "markieren" und später darauf zuzugreifen. So kann man auch bestimmte Bereiche im Browser als "Anchor-Links" markiert.
+    Also stellen auf der Seite, zB eine Newsletter Section, zu der man dann verlinken kann. Das sieht in der URL so aus: www.example.com/page.html#newsletter */
+/*  Außerdem sind sie die Haupt-Auswahlmethode um mit JavaScript auf Elemente zuzugreifen */
+
+#newsletter {
+    display: block;
+}
+
+/* Man kann IDs und Klassen miteinander verknüpfen, um noch präziser auswählen zu können */
+#section.class {
+    display: block;
+}
+
+
+/*
+ * Elemente
+ */
+/* Man kann auch das standard-aussehen der einzelnen html-tags überschreiben, sodass Elemente schon ohne Klasse richtig aussehen. */
+
+p {
+    font-size: 12px;
+    color: #5414F9;
+}
+/* wenn auf mehrere Elemente die selbe Regel angewendet werden soll, zählt man diese einfach durch Komma getrennt auf */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+/* Der Stern steht in css (wie in vielen anderen Programmiersprachen auch) für alle Elemente. */
+* {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+/* 
+ * Attribute
+ */
+/*  Der Vollständigkeit halber noch Attribute: diese sind hauptsächlich für javascript etc nützlich, aber auch auf diese kann man mit css Einfluss nehmen.
+    Mehr dazu hier: https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors */
+
+/* Alle links, die auf example.org zeigen */
+a[href="https://example.org"] {
+    color: red;
+}
+
+/* Man kann auch eigene Attribute anlegen. Diese müssen mit data- beginnen und können ab da benannt werden. Nachfolgend "alle Elemente mit data-demo="beipiel" */
+*[data-demo="beipiel"] {
+    color: blue;
+}

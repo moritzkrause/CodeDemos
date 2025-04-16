@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- HyperText Markup Language -->
+
+<!-- Der Browser beginnt von oben nach unten, das Dokument zu laden und nach html zu interpretieren -->
+<!-- Das Resultat ist das "Document Object Model", kurz DOM, und bezeichnet die allgemeine Struktur eurer Seite mit geladenem Inhalt -->
+<html>
+
+<head>
+    <!-- Im Head werden Metadaten, Beschreibungen und benötigte externe Ressourcen gehandelt -->
+    <!-- Vergleichbar mit den Metadaten bei Fotos (Auflösung, Urheber, ...)-->
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>HTML, CSS und JavaScript Demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Mittels den Meta-Properties kann man beliebige Metadaten zu seiner Website definieren. -->
+    <!-- Es exisitert allerdings ein Set an standartisierten Metadaten, die Browser und Suchanbieter verwenden, um eure Seite zu identifiezieren,
+        validieren und bspw. Vorschaubilder für das Teilen des Links in Sozialen Netzwerken zu erstellen. -->
+    <meta name="author" content="Moritz Krause">
+    <meta name="description" content="Kurze Erläuterung der Funktionalitäten der html5, css und js Interaktionen">
+
+
+
+    <!-- Laden der eigenen Stylesheets und externen Libraries wie P5js BEVOR der zu rendernde Inhalt der Seite geladen wird -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"
+        integrity="sha512-3RlxD1bW34eFKPwj9gUXEWtdSMC59QqIqHnD8O/NoTwSJhgxRizdcFVQhUMFyTp5RwLTDL0Lbcqtl8b7bFAzog=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> <!-- crossorigin und integrity sind datenschutz-tags die euch der hoster des scripts ggf bereitstellt. -->
+
+    <!-- css ist kurz für cascading stylesheets, deshalb oft nur stylesheet oder style genannt -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./assets/main.css'>
+
+
+    <!-- Auch wenn css und js eigentlich in eigene Dateien ausgelagert werden sollen, besteht die Möglichkeit in der html-Datei css zu definieren -->
+    <style>
+        body {
+            color: black;
+        }
+    </style>
+</head>
+
+<!-- Alle Metadaten und Ressourcen sind verarbeitet und der Browser beginnt den zu rendernden Content zu laden und interpretieren -->
+
+<body>
+    <div class="page-wrapper">
+        <section id="hero">
+            <div class="container">
+                <h1 class="title gradient">HTML, CSS und JavaScript Demo</h1>
+                <hr>
+                <p data-demo="beipiel">Ea aliqua anim et do irure deserunt ullamco veniam dolore labore cupidatat irure aliquip. Elit enim
+                    ipsum in qui cillum ea esse reprehenderit adipisicing enim pariatur. Non nostrud dolor excepteur est
+                    non non in sint aliquip enim deserunt irure. Cillum esse proident duis quis in irure do aliquip
+                    voluptate cupidatat minim aliquip. Lorem sint amet est veniam consectetur ex non elit ipsum sunt
+                    aliqua esse reprehenderit est in. Qui elit aliquip labore cillum ullamco anim esse id occaecat qui
+                    velit esse amet ex mollit.</p>
+                <a href=""></a>
+            </div>
+        </section>
+        <section id="newsletter"></section>
+    </div>
+
+
+    <!-- Der Content (DOM) ist komplett geladen und verarbeitet. -->
+    <!-- Diese Stelle nennt man "bevore closing body Tag" und ist der Ort, an dem ihr mit dem DOM interagieren solltet, da alles geladen ist. -->
+    <script src='main.js'></script>
+
+    <!-- Genau wie bei css kann man javascript auch in Html verwenden und ist nicht gezwungen das in eine extra Datei zu packen. -->
+    <script>
+        let myVariable = 5;
+        console.log(myVariable)
+    </script>
+
+    <!-- Anders als bei css verlangen manche Funktionalitäten im Browser allerdings die Verwendung von javascript als Modul, 
+        wodurch die Datei dann doch notwendig ist. -->
+    <script type="module" src="moduleDemo.js"></script>
+</body>
+
+</html>
