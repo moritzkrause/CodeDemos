@@ -4,7 +4,7 @@
     Vergleichbar mit Absatzformaten etc in Indesign. */
 /*  Ihr werdet zwar zu keiner Strukturierung gezwungen, aber es ist ratsam, den Code in irgendeiner Form zu ordnen, um einen Überblick zu behalten. */
 
-@import url("fonts.goo....");
+/*@import url("fonts.goo....");*/
 
 @font-face {
     font-family: eigene;

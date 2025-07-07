@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<body>
+
+    <script>
+        let playing = false;
+
+        window.addEventListener("keydown", (e) => {
+            console.log(e.key);
+            if(e.key == "s" || e.key == "S") {
+                if(playing) {
+                    playing = false;
+                    // Code, mit dem du das Video pausieren kannst
+                } else {
+                    playing = true;
+                    // Code, mit dem du das Video abspielen kannst
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
