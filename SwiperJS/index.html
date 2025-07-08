@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+    <!-- Swiper 1 -->
+    <div class="swiper swiper1">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <!-- Swiper 2 -->
+    <div class="swiper swiper2">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <!-- Swiper 3 -->
+    <div class="swiper swiper3">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+            <div class="swiper-slide"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+
+    <script data-position="before-closing-body">
+        /*
+         * Initializes three Swiper sliders with similar settings (speed, loop, navigation, pagination, etc.).
+         * Each Swiper targets a different container (swiper1, swiper2, swiper3).
+         * Uses jQuery to select pagination, navigation, and scrollbar elements.
+         */
+        // Ensure SwiperJS and jQuery are included in your project and loaded before this script.
+        // Example: https://code.jquery.com/jquery-3.6.0.min.js" (included in Webflow by default)
+        // Example: https://unpkg.com/swiper/swiper-bundle.min.js"
+
+        window.onload = function () {
+            let loopMode = false; // Set to true for looping sliders
+
+            // Initialize Swiper One
+            const swiper1 = new Swiper('.swiper.one', {
+                speed: 300,
+                loop: loopMode,
+                autoHeight: false,
+                centeredSlides: loopMode,
+                followFinger: true,
+                freeMode: false,
+                slideToClickedSlide: false,
+                slidesPerView: 'auto', //adjust to content
+                spaceBetween: "1%", // adjust to design
+                rewind: false,
+                direction: 'horizontal', // or 'vertical'
+                mousewheel: {
+                    forceToAxis: true
+                },
+                keyboard: {
+                    enabled: true,
+                    onlyInViewport: true
+                },
+                pagination: {
+                    el: $(this).find(".swiper-bullet-wrapper")[0],
+                    bulletActiveClass: "is-active",
+                    bulletClass: "swiper-bullet",
+                    bulletElement: "button",
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: $(this).find(".swiper-next")[0],
+                    prevEl: $(this).find(".swiper-prev")[0],
+                    disabledClass: "is-disabled"
+                },
+                scrollbar: {
+                    el: $(this).find(".swiper-drag-wrapper")[0],
+                    draggable: true,
+                    dragClass: "swiper-drag",
+                    snapOnRelease: true
+                },
+                slideActiveClass: "is-active",
+                slideDuplicateActiveClass: "is-active"
+            });
+
+            // Initialize Swiper One
+            const swiper2 = new Swiper('.swiper.two', {
+                speed: 300,
+                loop: loopMode,
+                autoHeight: false,
+                centeredSlides: loopMode,
+                followFinger: true,
+                freeMode: false,
+                slideToClickedSlide: false,
+                slidesPerView: 'auto', //adjust to content
+                spaceBetween: "1%", // adjust to design
+                rewind: false,
+                direction: 'horizontal', // or 'vertical'
+                mousewheel: {
+                    forceToAxis: true
+                },
+                keyboard: {
+                    enabled: true,
+                    onlyInViewport: true
+                },
+                pagination: {
+                    el: $(this).find(".swiper-bullet-wrapper")[0],
+                    bulletActiveClass: "is-active",
+                    bulletClass: "swiper-bullet",
+                    bulletElement: "button",
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: $(this).find(".swiper-next")[0],
+                    prevEl: $(this).find(".swiper-prev")[0],
+                    disabledClass: "is-disabled"
+                },
+                scrollbar: {
+                    el: $(this).find(".swiper-drag-wrapper")[0],
+                    draggable: true,
+                    dragClass: "swiper-drag",
+                    snapOnRelease: true
+                },
+                slideActiveClass: "is-active",
+                slideDuplicateActiveClass: "is-active"
+            });
+            // Initialize Swiper Three
+            const swiper3 = new Swiper('.swiper.three', {
+                speed: 300,
+                loop: loopMode,
+                autoHeight: false,
+                centeredSlides: loopMode,
+                followFinger: true,
+                freeMode: false,
+                slideToClickedSlide: false,
+                slidesPerView: 'auto', //adjust to content
+                spaceBetween: "1%", // adjust to design
+                rewind: false,
+                direction: 'horizontal', // or 'vertical'
+                mousewheel: {
+                    forceToAxis: true
+                },
+                keyboard: {
+                    enabled: true,
+                    onlyInViewport: true
+                },
+                pagination: {
+                    el: $(this).find(".swiper-bullet-wrapper")[0],
+                    bulletActiveClass: "is-active",
+                    bulletClass: "swiper-bullet",
+                    bulletElement: "button",
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: $(this).find(".swiper-next")[0],
+                    prevEl: $(this).find(".swiper-prev")[0],
+                    disabledClass: "is-disabled"
+                },
+                scrollbar: {
+                    el: $(this).find(".swiper-drag-wrapper")[0],
+                    draggable: true,
+                    dragClass: "swiper-drag",
+                    snapOnRelease: true
+                },
+                slideActiveClass: "is-active",
+                slideDuplicateActiveClass: "is-active"
+            });
+        };
+    </script>
+</body>
+
+</html>

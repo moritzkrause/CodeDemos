@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stacked Cards Demo</title>
+    <style>
+        /* Kannst du auch in Webflow anlegen, müssen nur genau so heißen
+         * in Webflow dann: animations / offset-1, ...
+         */
+        :root {
+            --animations--offset-1: 12em;
+            --animations--offset-2: 6em;
+            --animations--offset-3: 0;
+        }
+        .card-stack {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 50px auto;
+        }
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: all 0.2s; /* Optional: für sanfte Übergänge, das kannst du auch in Webflow unter transition angeben. */
+        }
+        .stack-1 {
+            left: var(--offset-1);
+            background: #e3f2fd;
+            z-index: 1;
+        }
+        .stack-2 {
+            left: var(--offset-2);
+            background: #bbdefb;
+            z-index: 2;
+        }
+        .stack-3 {
+            top: 0;
+            left: var(--offset-3);
+            background: #90caf9;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Deine Struktur sollte so aufgebaut sein; bei den Karten ist nur die ID wichtig -->
+    <div class="card-stack">
+        <div class="card stack-1" id="stack-card">Card 1</div>
+        <div class="card stack-2" id="stack-card">Card 2</div>
+        <div class="card stack-3" id="stack-card">Card 3</div>
+    </div>
+
+    <script>
+        const cards = Array.from(document.querySelectorAll('#stack-card'));
+        const rootStyles = getComputedStyle(document.documentElement);
+        offsets = [
+            parseFloat(rootStyles.getPropertyValue('--animations--offset-1')),
+            parseFloat(rootStyles.getPropertyValue('--animations--offset-2')),
+            parseFloat(rootStyles.getPropertyValue('--animations--offset-3'))
+        ];
+        const positions = [
+            { left: offsets[0]+'em'},
+            { left: offsets[1]+'em'},
+            { left: offsets[2]+'em'},
+        ];
+            
+        function applyPositions() {
+            cards.forEach((card, i) => {
+                card.style.left = positions[i].left;
+                card.style.zIndex = i + 1;
+            });
+        }
+
+        applyPositions();
+
+        document.querySelector('.card-stack').addEventListener('click', () => {
+            // Move the top card to the bottom
+            cards.push(cards.shift());
+            applyPositions();
+        });
+    </script>
+</body>
+</html>
