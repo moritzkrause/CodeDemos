@@ -52,12 +52,12 @@
 
 <body>
     <!-- Deine Struktur sollte so aufgebaut sein; bei den Karten ist nur die ID und data-offset wichtig -->
-    <div class="card-stack">
+    <div class="card-stack" data-unit="em">
         <div class="card stack-1" id="stack-card" data-offset="12">Card 1</div>
         <div class="card stack-2" id="stack-card" data-offset="6">Card 2</div>
         <div class="card stack-3" id="stack-card" data-offset="0">Card 3</div>
     </div>
-    <div class="card-stack">
+    <div class="card-stack" data-unit="em">
         <div class="card stack-1" id="stack-card" data-offset="8">Card 1</div>
         <div class="card stack-2" id="stack-card" data-offset="4">Card 2</div>
         <div class="card stack-3" id="stack-card" data-offset="0">Card 3</div>
@@ -67,15 +67,16 @@
         let stacks = document.querySelectorAll('.card-stack');
         stacks ? stacks.forEach(stack => {
             const cards = Array.from(stack.querySelectorAll('#stack-card'));
-            offsets = [
+            let unit = stack.getAttribute('data-unit') || 'em';
+            let offsets = [
                 stack.querySelector(".stack-1").getAttribute('data-offset'),
                 stack.querySelector(".stack-2").getAttribute('data-offset'),
                 stack.querySelector(".stack-3").getAttribute('data-offset')
             ];
             const positions = [
-                { left: offsets[0] + 'em' },
-                { left: offsets[1] + 'em' },
-                { left: offsets[2] + 'em' },
+                { left: offsets[0] + unit },
+                { left: offsets[1] + unit },
+                { left: offsets[2] + unit },
             ];
 
             function applyPositions() {
