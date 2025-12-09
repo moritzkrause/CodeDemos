@@ -328,8 +328,7 @@
                 const params = new URLSearchParams(window.location.search);
                 user = params.get('user');
                 pw = params.get('pw');
-                
-                // 127.0.0.1:58444/CodeDemos/mqtt_Demo/mqtt_sliders.html?user=homebridgedemo&pw=aucJ0EuqEmP1PhRk
+            
                 if(params.has('user') && params.has('pw')) {
                     initMQTT(user, pw);
                 }
