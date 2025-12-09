@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>MQTT Send Test</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <!-- animeJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+        integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="heading">
+                <img src="images/HomeGrid-Green.svg" class="index" alt="Logo">
+            </div>
+            <h2 class="card">Total IAQ<span class="value" id="iaq">00</span></h2>
+            <h2 class="card">Temperature<span class="value" id="temp">00</span></h2>
+            <h2 class="card">Humidity<span class="value" id="hum">00</span></h2>
+            <h2 class="card">Pressure<span class="value" id="hpa">00</span></h2>
+            <h2 class="card">Total VOC<span class="value" id="voc">00</span></h2>
+            <h2 class="card">Total CO2<span class="value" id="co2">00</span></h2>
+            <h2 class="card">Natural Brightness<span class="value" id="n_lb">00</span></h2>
+            <h2 class="card">Natural Reds<span class="value" id="n_cr">00</span></h2>
+            <h2 class="card">Natural Greens<span class="value" id="n_cg">00</span></h2>
+            <h2 class="card">Natural Blue <span class="value" id="n_cb">00</span></h2>
+            <h2 class="card">Ambient Brightness<span class="value" id="a_lb">00</span></h2>
+            <h2 class="card">Ambient Reds<span class="value" id="a_cr">00</span></h2>
+            <h2 class="card">Ambient Greens<span class="value" id="a_cg">00</span></h2>
+            <h2 class="card">Ambient Blues<span class="value" id="a_cb">00</span></h2>
+        </div>
+        </div>
+
+        <div style="display: none">
+            
+        </div>
+    </section>
+
+    <script>
+        /*
+         * const queryString = window.location.search;
+         * console.log(queryString);
+         * 
+         * MD5 hash?? for mac address
+         */
+        let values = {
+            l: {
+                n_l: {
+                    b: 0,
+                    c: {
+                        r: 0,
+                        g: 0,
+                        b: 0
+                    },
+                    prev: {
+                        b: 0,
+                        c: {
+                            r: 0,
+                            g: 0,
+                            b: 0
+                        }
+                    }
+                },
+                a_l: {
+                    b: 0,
+                    c: {
+                        r: 0,
+                        g: 0,
+                        b: 0
+                    },
+                    prev: {
+                        b: 0,
+                        c: {
+                            r: 0,
+                            g: 0,
+                            b: 0
+                        }
+                    }
+                }
+            },
+            air: {
+                temp: 0,
+                hum: 0,
+                hpa: 0,
+                iaq: 0,
+                d: {
+                    voc: 0,
+                    co2: 0
+                },
+                prev: {
+                    temp: 0,
+                    hum: 0,
+                    hpa: 0,
+                    iaq: 0,
+                    d: {
+                        voc: 0,
+                        co2: 0
+                    }
+                }
+            }
+        }
+
+        let containers = {
+            l: { // light
+                n_l: {
+                    b: document.querySelector("#n_lb"), // brightness
+                    c: { // color
+                        r: document.querySelector("#n_cr"),
+                        g: document.querySelector("#n_cg"),
+                        b: document.querySelector("#n_cb")
+                    }
+                },
+                a_l: { // light
+                    b: document.querySelector("#a_lb"), // brightness
+                    c: { // color
+                        r: document.querySelector("#a_cr"),
+                        g: document.querySelector("#a_cg"),
+                        b: document.querySelector("#a_cb")
+                    }
+                }
+            },
+            air: {
+                iaq: document.querySelector("#iaq"),
+                temp: document.querySelector("#temp"),
+                hum: document.querySelector("#hum"),
+                hpa: document.querySelector("#hpa"),
+                d: { // details
+                    voc: document.querySelector("#voc"),
+                    co2: document.querySelector("#co2")
+                }
+            }
+        }
+
+        // container, from val, to val
+        function writeOne(c, from, to) {
+            anime({
+                targets: c,
+                innerHTML: [from, to],
+                easing: 'easeInOutSine',
+                round: 1,
+                duration: 1000,
+            })
+        }
+
+        //let queryString = window.location.search
+        //if (queryString == '') {
+        //    alert("Please add your unique gard id to the url.\nFor example: mygard.webflow.io?mygardXX:XX:XX:XX:XX:XX");
+        //} else {
+
+        const client = mqtt.connect('wss://homegrid:GPmFHSj5VKDTPi3B@homegrid.cloud.shiftr.io', {
+            clientId: "dashboard"
+        });
+
+        client.on('connect', function () {
+            mqtt_connected = true
+            console.log("mqtt_connected:" + mqtt_connected)
+            console.log('connected!')
+
+            client.subscribe('/light/natural/light')
+            client.subscribe('/light/natural/color/r')
+            client.subscribe('/light/natural/color/g')
+            client.subscribe('/light/natural/color/b')
+            client.subscribe('/air/iaq')
+            client.subscribe('/air/temp')
+            client.subscribe('/air/hum')
+            client.subscribe('/air/hpa')
+            client.subscribe('/air/details/voc')
+            client.subscribe('/air/details/co2')
+
+            setInterval(function () {
+                client.publish('/keepalive', 'true')
+            }, 55000)
+        });
+
+        client.on('message', function (topic, m) {
+            // natural
+            if (topic == "/light/natural/light") {
+                values.l.n_l.prev.b = values.l.n_l.b
+                values.l.n_l.b = m.toString()
+                writeOne(containers.l.n_l.b, values.l.n_l.prev.b, values.l.n_l.b)
+            }
+            if (topic == "/light/natural/color/r") {
+                values.l.n_l.prev.c.r = values.l.n_l.c.r
+                values.l.n_l.c.r = m.toString()
+                writeOne(containers.l.n_l.c.r, values.l.n_l.prev.c.r, values.l.n_l.c.r)
+            }
+            if (topic == "/light/natural/color/g") {
+                values.l.n_l.prev.c.g = values.l.n_l.c.g
+                values.l.n_l.c.g = m.toString()
+                writeOne(containers.l.n_l.c.g, values.l.n_l.prev.c.g, values.l.n_l.c.g)
+            }
+            if (topic == "/light/natural/color/b") {
+                values.l.n_l.prev.c.b = values.l.n_l.c.b
+                values.l.n_l.c.b = m.toString()
+                writeOne(containers.l.n_l.c.b, values.l.n_l.prev.c.b, values.l.n_l.c.b)
+            }
+            // ambient
+            if (topic == "/light/ambient/brightness") {
+                values.l.a_l.prev.b = values.l.a_l.b
+                values.l.a_l.b = m.toString()
+                writeOne(containers.l.a_l.b, values.l.a_l.prev.b, values.l.a_l.b)
+            }
+            if (topic == "/light/ambient/color/r") {
+                values.l.a_l.prev.c.r = values.l.a_l.c.r
+                values.l.a_l.c.r = m.toString()
+                writeOne(containers.l.a_l.c.r, values.l.a_l.prev.c.r, values.l.a_l.c.r)
+            }
+            if (topic == "/light/ambient/color/g") {
+                values.l.a_l.prev.c.g = values.l.a_l.c.g
+                values.l.a_l.c.g = m.toString()
+                writeOne(containers.l.a_l.c.g, values.l.a_l.prev.c.g, values.l.a_l.c.g)
+            }
+            if (topic == "/light/ambient/color/b") {
+                values.l.a_l.prev.c.b = values.l.a_l.c.b
+                values.l.a_l.c.b = m.toString()
+                writeOne(containers.l.a_l.c.b, values.l.a_l.prev.c.b, values.l.a_l.c.b)
+            }
+            // air
+            if (topic == "/air/temp") {
+                values.air.prev.temp = values.air.temp
+                values.air.temp = m.toString()
+                writeOne(containers.air.temp, values.air.prev.temp, values.air.temp)
+            }
+            if (topic == "/air/hum") {
+                values.air.prev.hum = values.air.hum
+                values.air.hum = m.toString()
+                writeOne(containers.air.hum, values.air.prev.hum, values.air.hum)
+            }
+            if (topic == "/air/hpa") {
+                values.air.prev.hpa = values.air.hpa
+                values.air.hpa = m.toString()
+                writeOne(containers.air.hpa, values.air.prev.hpa, values.air.hpa)
+            }
+            if (topic == "/air/iaq") {
+                values.air.prev.iaq = values.air.iaq
+                values.air.iaq = m.toString()
+                writeOne(containers.air.iaq, values.air.prev.iaq, values.air.iaq)
+            }
+            if (topic == "/air/details/voc") {
+                values.air.prev.d.voc = values.air.d.voc
+                values.air.d.voc = m.toString()
+                writeOne(containers.air.d.voc, values.air.prev.d.voc, values.air.d.voc)
+            }
+            if (topic == "/air/details/co2") {
+                values.air.prev.d.co2 = values.air.d.co2
+                values.air.d.co2 = m.toString()
+                writeOne(containers.air.d.co2, values.air.prev.d.co2, values.air.d.co2)
+            }
+        });
+        setInterval(function () {
+            console.log(containers);
+            console.log(values)
+        }, 4000)
+        //}
+    </script>
+</body>
+
+</html>
