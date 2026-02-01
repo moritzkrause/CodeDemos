@@ -3,7 +3,7 @@
 
 USBKeyboard Keyboard;
 
-const int buttonPin = 18;  // the number of the pushbutton pin
+const int buttonPin = 8;  // the number of the pushbutton pin
 
 int buttonState;            // the current reading from the input pin
 int lastButtonState = LOW;  // the previous reading from the input pin
